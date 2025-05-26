@@ -66,6 +66,19 @@ class Room {
     const result = await pool.query(query);
     return result.rows;
   }
+
+  static async getMostUsedRoom() {
+    const query = `
+      SELECT r.room_id, r.room_name, r.room_location, COUNT(l.loan_id) AS loan_count
+      FROM rooms r
+      JOIN loans l ON r.room_id = l.room_id
+      GROUP BY r.room_id, r.room_name, r.room_location
+      ORDER BY loan_count DESC
+      LIMIT 1
+    `;
+    const result = await pool.query(query);
+    return result.rows[0];
+  }  
 }
 
 module.exports = Room;

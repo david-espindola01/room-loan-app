@@ -171,7 +171,16 @@ const roomController = {
         error: error.message
       });
     }
-  }
+  }, 
+
+  getMostUsedRoom: async (req, res) => {
+    try {
+      const room = await Room.getMostUsedRoom();
+      res.json({ success: true, data: room });
+    } catch (error) {
+      res.status(500).json({ success: false, message: 'Error getting most used room', error: error.message });
+    }
+  } 
 };
 
 module.exports = roomController;

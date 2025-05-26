@@ -79,6 +79,30 @@ class Loan {
     const result = await pool.query(query, [startDate, endDate]);
     return result.rows;
   }
+
+  static async getWeeklyReport() {
+    const query = `
+      SELECT DATE_TRUNC('week', date) AS week, COUNT(*) AS total
+      FROM loans
+      GROUP BY week
+      ORDER BY week DESC
+      LIMIT 4
+    `;
+    const result = await pool.query(query);
+    return result.rows;
+  }
+  
+  static async getMonthlyReport() {
+    const query = `
+      SELECT TO_CHAR(date, 'YYYY-MM') AS month, COUNT(*) AS total
+      FROM loans
+      GROUP BY month
+      ORDER BY month DESC
+      LIMIT 6
+    `;
+    const result = await pool.query(query);
+    return result.rows;
+  }  
 }
 
 module.exports = Loan;

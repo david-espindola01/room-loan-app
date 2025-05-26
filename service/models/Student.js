@@ -59,6 +59,20 @@ class Student {
     const result = await pool.query(query, [id]);
     return result.rows;
   }
+
+  static async getTopUsers() {
+    const query = `
+      SELECT s.student_id, s.student_name, s.student_code, COUNT(l.loan_id) AS loan_count
+      FROM students s
+      JOIN loans l ON s.student_id = l.student_id
+      GROUP BY s.student_id, s.student_name, s.student_code
+      ORDER BY loan_count DESC
+      LIMIT 10
+    `;
+    const result = await pool.query(query);
+    return result.rows;
+  }  
+
 }
 
 module.exports = Student;

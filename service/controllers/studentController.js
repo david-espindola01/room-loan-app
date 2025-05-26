@@ -168,7 +168,16 @@ const studentController = {
         error: error.message
       });
     }
-  }
+  },
+
+  getTopUsers: async (req, res) => {
+    try {
+      const topUsers = await Student.getTopUsers();
+      res.json({ success: true, data: topUsers });
+    } catch (error) {
+      res.status(500).json({ success: false, message: 'Error fetching top users', error: error.message });
+    }
+  }  
 };
 
 module.exports = studentController;

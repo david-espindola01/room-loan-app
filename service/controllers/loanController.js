@@ -211,7 +211,26 @@ const loanController = {
         error: error.message
       });
     }
-  }
+  },
+
+  getWeeklyReport: async (req, res) => {
+    try {
+      const report = await Loan.getWeeklyReport();
+      res.json({ success: true, data: report });
+    } catch (error) {
+      res.status(500).json({ success: false, message: 'Error fetching weekly report', error: error.message });
+    }
+  },
+  
+  getMonthlyReport: async (req, res) => {
+    try {
+      const report = await Loan.getMonthlyReport();
+      res.json({ success: true, data: report });
+    } catch (error) {
+      console.error("error: ", error)
+      res.status(500).json({ success: false, message: 'Error fetching monthly report', error: error.message });
+    }
+  }  
 };
 
 module.exports = loanController;
