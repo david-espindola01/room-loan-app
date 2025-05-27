@@ -23,7 +23,7 @@ docker --version
 | Componente              | Imagen Docker                           | Puerto Local |
 |-------------------------|------------------------------------------|--------------|
 | Base de datos PostgreSQL | `davidespindola01/classroom-db`         | 5432         |
-| Servidor en Node.js      | `davidespindola01/classroom-server`     | 3000         |
+| Servidor en Node.js      | `davidespindola01/classroom-service`     | 3000         |
 | Interfaz Web en React    | `davidespindola01/classroom-ui`         | 3001         |
 
 ---
@@ -44,7 +44,7 @@ Ejecute los siguientes comandos para descargar las tres imágenes:
 
 ```bash
 docker pull davidespindola01/classroom-db
-docker pull davidespindola01/classroom-server
+docker pull davidespindola01/classroom-service
 docker pull davidespindola01/classroom-ui
 ```
 
@@ -80,19 +80,19 @@ Lance el contenedor del servidor backend:
 
 ```bash
 docker run -d \
-  --name classroom-server \
+  --name classroom-service \
   --network classroom-net \
   -e DB_HOST=classroom-db \
   -e DB_USER=admin \
   -e DB_PASSWORD=admin \
   -e DB_NAME=classroomdb \
   -p 3000:3000 \
-  davidespindola01/classroom-server
+  davidespindola01/classroom-service
 ```
 
 **Para Windows (cmd/PowerShell):**
 ```cmd
-docker run -d --name classroom-server --network classroom-net -e DB_HOST=classroom-db -e DB_USER=admin -e DB_PASSWORD=admin -e DB_NAME=classroomdb -p 3000:3000 davidespindola01/classroom-server
+docker run -d --name classroom-service --network classroom-net -e DB_HOST=classroom-db -e DB_USER=admin -e DB_PASSWORD=admin -e DB_NAME=classroomdb -p 3000:3000 davidespindola01/classroom-service
 ```
 
 ---
@@ -124,7 +124,7 @@ docker ps
 
 Debería ver los tres contenedores ejecutándose:
 - `classroom-db`
-- `classroom-server`
+- `classroom-service`
 - `classroom-ui`
 
 ### 2. Verificar logs (si hay problemas)
@@ -133,7 +133,7 @@ Debería ver los tres contenedores ejecutándose:
 docker logs classroom-db
 
 # Ver logs del servidor
-docker logs classroom-server
+docker logs classroom-service
 
 # Ver logs de la interfaz
 docker logs classroom-ui
@@ -156,8 +156,8 @@ Si recibe un error de puerto ocupado:
 docker ps -a
 
 # Detener contenedores existentes
-docker stop classroom-ui classroom-server classroom-db
-docker rm classroom-ui classroom-server classroom-db
+docker stop classroom-ui classroom-service classroom-db
+docker rm classroom-ui classroom-service classroom-db
 ```
 
 ### Problema: Contenedor se detiene inmediatamente
@@ -165,10 +165,10 @@ docker rm classroom-ui classroom-server classroom-db
 # Ver logs para identificar el error
 docker logs [nombre-contenedor]
 
-# Reiniciar en orden: db → server → ui
+# Reiniciar en orden: db → service → ui
 docker restart classroom-db
 sleep 10
-docker restart classroom-server
+docker restart classroom-service
 sleep 5
 docker restart classroom-ui
 ```
@@ -185,14 +185,14 @@ docker restart classroom-ui
 Para detener todos los servicios:
 
 ```bash
-docker stop classroom-ui classroom-server classroom-db
+docker stop classroom-ui classroom-service classroom-db
 ```
 
 Para eliminar completamente los contenedores:
 
 ```bash
-docker stop classroom-ui classroom-server classroom-db
-docker rm classroom-ui classroom-server classroom-db
+docker stop classroom-ui classroom-service classroom-db
+docker rm classroom-ui classroom-service classroom-db
 docker network rm classroom-net
 ```
 
@@ -209,7 +209,7 @@ docker network create classroom-net
 # Iniciar contenedores en orden
 docker start classroom-db
 sleep 10
-docker start classroom-server
+docker start classroom-service
 sleep 5
 docker start classroom-ui
 ```
@@ -225,7 +225,7 @@ docker network create classroom-net
 
 # Descargar imágenes
 docker pull davidespindola01/classroom-db
-docker pull davidespindola01/classroom-server
+docker pull davidespindola01/classroom-service
 docker pull davidespindola01/classroom-ui
 
 # Ejecutar base de datos
@@ -235,7 +235,7 @@ docker run -d --name classroom-db --network classroom-net -e POSTGRES_USER=admin
 sleep 15
 
 # Ejecutar servidor
-docker run -d --name classroom-server --network classroom-net -e DB_HOST=classroom-db -e DB_USER=admin -e DB_PASSWORD=admin -e DB_NAME=classroomdb -p 3000:3000 davidespindola01/classroom-server
+docker run -d --name classroom-service --network classroom-net -e DB_HOST=classroom-db -e DB_USER=admin -e DB_PASSWORD=admin -e DB_NAME=classroomdb -p 3000:3000 davidespindola01/classroom-service
 
 # Esperar 5 segundos
 sleep 5
@@ -246,10 +246,10 @@ docker run -d --name classroom-ui --network classroom-net -p 3001:3001 davidespi
 
 ### Limpieza completa
 ```bash
-docker stop classroom-ui classroom-server classroom-db
-docker rm classroom-ui classroom-server classroom-db
+docker stop classroom-ui classroom-service classroom-db
+docker rm classroom-ui classroom-service classroom-db
 docker network rm classroom-net
-docker rmi davidespindola01/classroom-ui davidespindola01/classroom-server davidespindola01/classroom-db
+docker rmi davidespindola01/classroom-ui davidespindola01/classroom-service davidespindola01/classroom-db
 ```
 
 ---
