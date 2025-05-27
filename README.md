@@ -23,7 +23,7 @@ docker --version
 | Componente              | Imagen Docker                           | Puerto Local |
 |-------------------------|------------------------------------------|--------------|
 | Base de datos PostgreSQL | `davidespindola01/classroom-db`         | 5432         |
-| Servidor en Node.js      | `davidespindola01/classroom-server`     | 3000         |
+| Servidor en Node.js      | `davidespindola01/classroom-service`     | 3000         |
 | Interfaz Web en React    | `davidespindola01/classroom-ui`         | 3001         |
 
 ---
