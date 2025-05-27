@@ -86,13 +86,13 @@ docker run -d \
   -e DB_USER=admin \
   -e DB_PASSWORD=admin \
   -e DB_NAME=classroomdb \
-  -p 3001:3001 \
+  -p 3000:3000 \
   davidespindola01/classroom-server
 ```
 
 **Para Windows (cmd/PowerShell):**
 ```cmd
-docker run -d --name classroom-server --network classroom-net -e DB_HOST=classroom-db -e DB_USER=admin -e DB_PASSWORD=admin -e DB_NAME=classroomdb -p 3001:3001 davidespindola01/classroom-server
+docker run -d --name classroom-server --network classroom-net -e DB_HOST=classroom-db -e DB_USER=admin -e DB_PASSWORD=admin -e DB_NAME=classroomdb -p 3000:3000 davidespindola01/classroom-server
 ```
 
 ---
@@ -104,13 +104,13 @@ Lance el contenedor de la interfaz de usuario:
 docker run -d \
   --name classroom-ui \
   --network classroom-net \
-  -p 3001:80 \
+  -p 3001:3001 \
   davidespindola01/classroom-ui
 ```
 
 **Para Windows (cmd/PowerShell):**
 ```cmd
-docker run -d --name classroom-ui --network classroom-net -p 3001:80 davidespindola01/classroom-ui
+docker run -d --name classroom-ui --network classroom-net -p 3001:3001 davidespindola01/classroom-ui
 ```
 
 ---
@@ -142,7 +142,7 @@ docker logs classroom-ui
 ### 3. Acceder a la aplicación
 Abra su navegador web y vaya a:
 
-**🌐 http://localhost:3000**
+**🌐 http://localhost:3001**
 
 ---
 
@@ -176,7 +176,7 @@ docker restart classroom-ui
 ### Problema: No se puede conectar a la aplicación
 1. Verifique que los tres contenedores estén ejecutándose: `docker ps`
 2. Espere 30-60 segundos después de iniciar todos los contenedores
-3. Intente acceder nuevamente a http://localhost:3000
+3. Intente acceder nuevamente a http://localhost:3001
 
 ---
 
@@ -241,7 +241,7 @@ docker run -d --name classroom-server --network classroom-net -e DB_HOST=classro
 sleep 5
 
 # Ejecutar interfaz
-docker run -d --name classroom-ui --network classroom-net -p 3001:80 davidespindola01/classroom-ui
+docker run -d --name classroom-ui --network classroom-net -p 3001:3001 davidespindola01/classroom-ui
 ```
 
 ### Limpieza completa
@@ -259,7 +259,7 @@ docker rmi davidespindola01/classroom-ui davidespindola01/classroom-server david
 Al completar exitosamente estos pasos:
 
 1. ✅ Los tres contenedores estarán ejecutándose
-2. ✅ La aplicación estará disponible en http://localhost:3000
+2. ✅ La aplicación estará disponible en http://localhost:3001
 3. ✅ Podrá interactuar completamente con la aplicación Classroom
 4. ✅ Los datos se persistirán mientras los contenedores estén activos
 
