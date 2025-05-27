@@ -23,8 +23,8 @@ docker --version
 | Componente              | Imagen Docker                           | Puerto Local |
 |-------------------------|------------------------------------------|--------------|
 | Base de datos PostgreSQL | `davidespindola01/classroom-db`         | 5432         |
-| Servidor en Node.js      | `davidespindola01/classroom-server`     | 3001         |
-| Interfaz Web en React    | `davidespindola01/classroom-ui`         | 3000         |
+| Servidor en Node.js      | `davidespindola01/classroom-server`     | 3000         |
+| Interfaz Web en React    | `davidespindola01/classroom-ui`         | 3001         |
 
 ---
 
@@ -104,13 +104,13 @@ Lance el contenedor de la interfaz de usuario:
 docker run -d \
   --name classroom-ui \
   --network classroom-net \
-  -p 3000:80 \
+  -p 3001:80 \
   davidespindola01/classroom-ui
 ```
 
 **Para Windows (cmd/PowerShell):**
 ```cmd
-docker run -d --name classroom-ui --network classroom-net -p 3000:80 davidespindola01/classroom-ui
+docker run -d --name classroom-ui --network classroom-net -p 3001:80 davidespindola01/classroom-ui
 ```
 
 ---
@@ -235,13 +235,13 @@ docker run -d --name classroom-db --network classroom-net -e POSTGRES_USER=admin
 sleep 15
 
 # Ejecutar servidor
-docker run -d --name classroom-server --network classroom-net -e DB_HOST=classroom-db -e DB_USER=admin -e DB_PASSWORD=admin -e DB_NAME=classroomdb -p 3001:3001 davidespindola01/classroom-server
+docker run -d --name classroom-server --network classroom-net -e DB_HOST=classroom-db -e DB_USER=admin -e DB_PASSWORD=admin -e DB_NAME=classroomdb -p 3000:3000 davidespindola01/classroom-server
 
 # Esperar 5 segundos
 sleep 5
 
 # Ejecutar interfaz
-docker run -d --name classroom-ui --network classroom-net -p 3000:80 davidespindola01/classroom-ui
+docker run -d --name classroom-ui --network classroom-net -p 3001:80 davidespindola01/classroom-ui
 ```
 
 ### Limpieza completa
